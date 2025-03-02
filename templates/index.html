@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -13,5 +12,16 @@
         <button type="submit">アップロード</button>
     </form>
 </body>
+<script>
+function autoDownload(filename) {
+    let link = document.createElement('a');
+    link.href = "/download/" + filename;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
+<body onload="autoDownload('{{ filename }}')">
 </html>
 
