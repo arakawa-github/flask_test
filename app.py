@@ -30,10 +30,16 @@ def upload_file():
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-        return f"ファイル {filename} がアップロードされました！"
+        file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        file.save(file_path)
+        return f"ファイルがアップロードされました！ <a href='/download/{filename}'>ダウンロード</a>"
     
     return "許可されていないファイル形式です", 400
-
+    
+@app.route("/download/<filename>")
+def download_file(filename):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename, as_attachment=True)
+    
 if __name__ == "__main__":
     app.run(debug=True)
+
