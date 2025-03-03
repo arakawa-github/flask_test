@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,send_from_directory
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -32,7 +32,7 @@ def upload_file():
         filename = secure_filename(file.filename)
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
         file.save(file_path)
-        return f"ファイルがアップロードされました！ <a href='/download/{filename}'>ダウンロード</a>"
+        return render_template("index.html", filename=filename)  # ファイル名を渡す
     
     return "許可されていないファイル形式です", 400
     
